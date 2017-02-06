@@ -25,8 +25,8 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import com.stoyanr.evictor.EvictionQueue;
-import com.stoyanr.evictor.map.EvictibleEntry;
+import com.peizhen.cache.EvictionQueue;
+import com.peizhen.cache.map.EvictibleEntry;
 
 /**
  * A concrete implementation of {@link AbstractQueueEvictionScheduler} which

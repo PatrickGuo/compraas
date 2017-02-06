@@ -21,8 +21,8 @@ import java.util.Comparator;
 import java.util.Queue;
 import java.util.concurrent.PriorityBlockingQueue;
 
-import com.stoyanr.evictor.EvictionQueue;
-import com.stoyanr.evictor.map.EvictibleEntry;
+import com.peizhen.cache.EvictionQueue;
+import com.peizhen.cache.map.EvictibleEntry;
 
 /**
  * An {@link EvictionQueue} which uses a {@link java.util.Queue} to store its
