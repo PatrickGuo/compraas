@@ -1,5 +1,6 @@
 package com.peizhen.service;
 
+import com.peizhen.cache.ConcurrentMapWithTimedEviction;
 import com.peizhen.cache.map.ConcurrentHashMapWithTimedEviction;
 import com.peizhen.service.util.Comparator;
 import com.peizhen.service.util.Statistics;
@@ -19,7 +20,7 @@ public class ServiceDaemon {
     // store information
     HashMap<String, Statistics> statMap;
     // cache layer
-    ConcurrentHashMapWithTimedEviction cache;
+    ConcurrentMapWithTimedEviction cache;
 
     public ServiceDaemon() {
         cmpMap = new HashMap<String, Comparator>();
@@ -76,7 +77,7 @@ public class ServiceDaemon {
 
 
 
-    public static void main() {
+    public static void main(String[] args) {
         ServiceDaemon dae = new ServiceDaemon();
         System.out.println("Start from here.");
     }
