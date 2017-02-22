@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class VectorEntryManipulator implements EntryManipulator<List<Double>, double[], String> {
 
-    public Comparator<double[]> comparator;
+    public Comparator<double[]> comparator = null;
 
     public VectorEntryManipulator() {
         comparator = new Comparator<double[]>() {
@@ -61,9 +61,9 @@ public class VectorEntryManipulator implements EntryManipulator<List<Double>, do
             len += vec[i]*vec[i];
         }
         len = Math.sqrt(len);
-        for (int i = 0; i < vec.length; i++) {
-            vec[i] /= len;
-        }
+        //for (int i = 0; i < vec.length; i++) {
+        //    vec[i] /= len;
+        //}
         return vec;
     }
 

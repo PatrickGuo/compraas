@@ -159,6 +159,7 @@ public class CacheStorage {
      * @param cmp comparatorName
      * @param key K
      * @return an object which contains the nearest two values as well as the confidence
+     * the return value could be confidence = 1 exact, or confidence = 2 fuzzy/traverseGet, or null
      */
     public ConcurrentMapWithValuedEviction.Reply lookup(String name, String cmp, Object key) {
         if (!hasFunction(name)) return null;
@@ -167,6 +168,33 @@ public class CacheStorage {
         if (manip == null) return null;
 
         Object mappedKey = manip.mapKey(key);
+
+        /**
+         * Now we check whether the comparator is null to decide whether we need traverseGet
+         */
+        if (true/*manip.getComparator() == null*/) {
+            ConcurrentMapWithValuedEviction.Reply rep = storage_.get(name).get(cmp).traverseGet(
+                                                        mappedKey, true, manip);
+            if (rep.confidence == 1) return rep;
+            else if (rep.confidence == 2) {
+                if (rep.lowerVal != null) {
+                    if (!manip.isSimilarKey(rep.lowerKey, mappedKey, threshold_.get(name).get(cmp))) {
+                        if (rep.higherVal == null) return null;
+                        rep.lowerKey = null;
+                        rep.lowerVal = null;
+                    }
+                }
+                if (rep.higherVal != null) {
+                    if (!manip.isSimilarKey(rep.higherKey, mappedKey, threshold_.get(name).get(cmp))) {
+                        if (rep.lowerVal == null) return null;
+                        rep.higherKey = null;
+                        rep.higherVal = null;
+                    }
+                }
+                return rep;
+            } else return null;
+        }
+
         ConcurrentMapWithValuedEviction.Reply rep = storage_.get(name).get(cmp).fuzzyGet(mappedKey, true);
 
         if (rep.confidence == 1) return rep;
@@ -370,7 +398,7 @@ public class CacheStorage {
         System.out.println(service.storage_.get("func1").get("simple").size());
         System.out.println(service.storage_.get("func1").get("naive").size());
 
-        //System.out.println(ret1.);
+        System.out.println(ret1.confidence);
 
 
     }
